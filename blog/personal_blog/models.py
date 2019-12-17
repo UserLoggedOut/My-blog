@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Category(models.Model):  # 类别
@@ -27,7 +28,7 @@ class Tag(models.Model):  # 标签
 class Post(models.Model):  # 文章
     title = models.CharField('标题', max_length=70)  # 文章标题
     body = models.TextField('正文')  # 文章正文
-    created_time = models.DateTimeField('创建时间')  # 文章创建时间
+    created_time = models.DateTimeField('创建时间', default=timezone.now)  # 文章创建时间
     modified_time = models.DateTimeField('修改时间')  # 文章最后一次修改时间
     excerpt = models.CharField('摘要', max_length=200, blank=True)  # 文章摘要，可以为空
     category = models.ForeignKey(Category, verbose_name='分类', on_delete=models.CASCADE)  # 文章分类
@@ -37,6 +38,10 @@ class Post(models.Model):  # 文章
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
+
+    def Post(self, *args, **kwargs):
+        self.modified_time = timezone.now()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
