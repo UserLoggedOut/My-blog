@@ -5,9 +5,15 @@ from django.contrib.auth.models import User
 class Category(models.Model):  # 类别
     name = models.CharField(max_length=100)  # 名称
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):  # 标签
     name = models.CharField(max_length=100)  # 名称
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):  # 文章
@@ -19,3 +25,6 @@ class Post(models.Model):  # 文章
     category = models.ForeignKey(Category, on_delete=models.CASCADE)  # 文章分类
     tags = models.ManyToManyField(Tag, blank=True)  # 文章标签
     author = models.ForeignKey(User, on_delete=models.CASCADE)  # 文章作者
+
+    def __str__(self):
+        return self.title
