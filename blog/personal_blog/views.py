@@ -1,4 +1,4 @@
-from django import http
+import markdown
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
@@ -14,4 +14,11 @@ class IndexView(View):  # 显示主页
 class DetailView(View):  # 显示详情页
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        # 解析Markdown
+        post.body = markdown.markdown(post.body,
+                                      extensions=[
+                                          'markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc'
+                                      ])
         return render(request, 'personal_blog/detail.html', context={'post': post})
