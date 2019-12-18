@@ -18,6 +18,7 @@ class IndexView(View):  # 显示主页
 class DetailView(View):  # 显示详情页
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        post.increase_reading()  # 阅读量+1
         # 解析Markdown
         md = markdown.Markdown(extensions=[
             'markdown.extensions.extra',
