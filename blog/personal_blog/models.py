@@ -41,6 +41,7 @@ class Post(models.Model):  # 文章
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
+        ordering = ['-created_time']
 
     def save(self, *args, **kwargs):  # 保存模型实例数据到数据库的逻辑
         self.modified_time = timezone.now()
