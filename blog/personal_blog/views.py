@@ -53,3 +53,18 @@ class TagsView(View):  # 标签页面
         t = get_object_or_404(Tag, pk=pk)
         post_list = Post.objects.filter(tags=t).order_by('-created_time')
         return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+
+
+class BlogView(View):  # 博客页面
+    def get(self, request):
+        return render(request, 'personal_blog/full-width.html')
+
+
+class AboutView(View):  # 关于
+    def get(self, request):
+        return render(request, 'personal_blog/about.html')
+
+
+class ContactView(View):  # 联系
+    def get(self, request):
+        return render(request, 'personal_blog/contact.html')
