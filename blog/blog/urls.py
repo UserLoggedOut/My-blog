@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('personal_blog.urls')),  # 添加主路由
+    path('', include('comments.urls'))
 ]
