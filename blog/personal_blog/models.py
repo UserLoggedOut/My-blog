@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -45,3 +46,6 @@ class Post(models.Model):  # 文章
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):  # 获取绝对路径  自定义
+        return reverse('personal_blog:detail', kwargs={'pk': self.pk})
