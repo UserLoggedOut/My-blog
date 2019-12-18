@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.views import View
 from markdown.extensions.toc import TocExtension
 
-from personal_blog.models import Post
+from personal_blog.models import Post, Category, Tag
 
 
 class IndexView(View):  # 显示主页
@@ -30,3 +30,26 @@ class DetailView(View):  # 显示详情页
                       md.toc, re.S)  # 如果文章没有任何标题元素时，MD就提取不出目录结构，post.toc就是一个空的<div>标签
         post.toc = m.group(1) if m is not None else ''  # 使用三目运算符判断是否有数据
         return render(request, 'personal_blog/detail.html', context={'post': post})
+
+
+class ArchiveView(View):  # 归档页面
+    def get(self, request, year, month):
+        # 这里使用了模型管理器(objects)的filter方法来过滤文章
+        post_list = Post.objects.filter(created_time__year=year,  # 按照日期归档，所以根据文章发表的年和月来过滤
+                                        created_time__month=month
+                                        ).order_by('-created_time')
+        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+
+
+class CategoryView(View):  # 分类页面
+    def get(self, request, pk):
+        cate = get_object_or_404(Category, pk=pk)
+        post_list = Post.objects.filter(category=cate).order_by('-created_time')
+        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+
+
+class TagsView(View):  # 标签页面
+    def get(self, request, pk):
+        t = get_object_or_404(Tag, pk=pk)
+        post_list = Post.objects.filter(tags=t).order_by('-created_time')
+        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
