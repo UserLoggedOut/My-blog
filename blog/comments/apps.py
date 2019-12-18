@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class CommentsConfig(AppConfig):
     name = 'comments'
-    verbose = '评论'
+    verbose_name = '评论'
