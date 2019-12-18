@@ -40,7 +40,7 @@ class Post(models.Model):  # 文章
         verbose_name = '文章'
         verbose_name_plural = verbose_name
 
-    def Post(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         self.modified_time = timezone.now()
         super().save(*args, **kwargs)
 
