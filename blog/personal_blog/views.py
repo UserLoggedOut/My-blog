@@ -2,7 +2,9 @@ import re
 
 import markdown
 from django.shortcuts import render, get_object_or_404
+from django.utils.text import slugify
 from django.views import View
+from markdown.extensions.toc import TocExtension
 
 from personal_blog.models import Post
 
@@ -20,7 +22,8 @@ class DetailView(View):  # 显示详情页
         md = markdown.Markdown(extensions=[
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
-            'markdown.extensions.toc'
+            # 'markdown.extensions.toc'
+            TocExtension(slugify=slugify)  # MD内置方法不能出路中文，所以我们使用Django自带的
         ])
         post.body = md.convert(post.body)
         m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>',
