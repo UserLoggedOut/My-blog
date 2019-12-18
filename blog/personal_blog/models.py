@@ -37,6 +37,7 @@ class Post(models.Model):  # 文章
     category = models.ForeignKey(Category, verbose_name='分类', on_delete=models.CASCADE)  # 文章分类
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)  # 文章标签
     author = models.ForeignKey(User, verbose_name='作者', on_delete=models.CASCADE)  # 文章作者
+    reading = models.PositiveIntegerField(default=0, editable=False)  # 阅读量
 
     class Meta:
         verbose_name = '文章'
@@ -58,3 +59,7 @@ class Post(models.Model):  # 文章
 
     def get_absolute_url(self):  # 获取绝对路径  自定义
         return reverse('personal_blog:detail', kwargs={'pk': self.pk})
+
+    def increase_reading(self):  # 阅读量方法
+        self.reading += 1
+        self.save(update_fields=['reading'])
