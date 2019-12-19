@@ -1,7 +1,7 @@
 import re
 
 import markdown
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.views import View
@@ -15,17 +15,25 @@ class IndexView(View):  # 显示主页
         post_list = Post.objects.all().order_by('-created_time')
 
         paginator = Paginator(post_list, 5)
-        page = request.GET.get('page')
+        page = request.GET.get('page', 1)
+        current_page = page
+        if paginator.num_pages > 11:
+            if current_page-5 < 1:
+                page_range = range(1, 11)
+            elif current_page+5 > paginator.num_pages:
+                page_range = range(current_page-5, paginator.num_pages+1)
+            else:
+                page_range = range(current_page-5, current_page+6)
+        else:
+            page_range = paginator.page_range
         try:
             post_list = paginator.page(page)
         except PageNotAnInteger:
-            # 如果用户请求的页码号不是整数, 显示第一页
             post_list = paginator.page(1)
         except EmptyPage:
-            # 如果用户请求的页码号超过了最大页码, 显示最后一页
             post_list = paginator.page(paginator.num_pages)
 
-        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+        return render(request, 'personal_blog/index.html', locals())
 
 
 class DetailView(View):  # 显示详情页
