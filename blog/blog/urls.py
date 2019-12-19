@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('personal_blog.urls')),  # 添加主路由
     path('', include('comments.urls')),
-    path(r'^all/rss/$', AllPostsRssFeed(), name='rss'),
+    path('all/rss/', AllPostsRssFeed(), name='rss'),
 ]
