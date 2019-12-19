@@ -1,4 +1,5 @@
 from django import template
+from django.db.models.aggregates import Count
 
 from personal_blog.models import Post, Category, Tag
 
@@ -27,7 +28,7 @@ def show_categories(context):  # 分类模板标签
 
 
 @register.inclusion_tag('personal_blog/inclusions/_tags.html', takes_context=True)
-def show_tags(context):
+def show_tags(context):  # 标签云
     return {
         'tag_list': Tag.objects.all(),
     }
