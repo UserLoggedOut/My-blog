@@ -23,12 +23,12 @@ def show_archives(context):  # 归档模板标签
 @register.inclusion_tag('personal_blog/inclusions/_categories.html', takes_context=True)
 def show_categories(context):  # 分类模板标签
     return {
-        'category_list': Category.objects.all(),
+        'category_list': Category.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0),
     }
 
 
 @register.inclusion_tag('personal_blog/inclusions/_tags.html', takes_context=True)
 def show_tags(context):  # 标签云
     return {
-        'tag_list': Tag.objects.all(),
+        'tag_list': Tag.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0),
     }
