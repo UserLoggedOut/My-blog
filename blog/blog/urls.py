@@ -23,5 +23,4 @@ urlpatterns = [
     path('', include('personal_blog.urls')),  # 添加主路由
     path('', include('comments.urls')),  # 评论
     path('all/rss/', AllPostsRssFeed(), name='rss'),  # Rss订阅
-    # path('search/', include('haystack.urls')),  # 搜索
 ]
