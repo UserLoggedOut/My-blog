@@ -1,6 +1,7 @@
 import re
 
 import markdown
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.views import View
@@ -12,6 +13,18 @@ from personal_blog.models import Post, Category, Tag
 class IndexView(View):  # 显示主页
     def get(self, request):
         post_list = Post.objects.all().order_by('-created_time')
+
+        paginator = Paginator(post_list, 5)
+        page = request.GET.get('page')
+        try:
+            post_list = paginator.page(page)
+        except PageNotAnInteger:
+            # 如果用户请求的页码号不是整数, 显示第一页
+            post_list = paginator.page(1)
+        except EmptyPage:
+            # 如果用户请求的页码号超过了最大页码, 显示最后一页
+            post_list = paginator.page(paginator.num_pages)
+
         return render(request, 'personal_blog/index.html', context={'post_list': post_list})
 
 

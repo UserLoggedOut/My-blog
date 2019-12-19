@@ -12,7 +12,8 @@
                     <span class="post-date"><a href="#"><time class="entry-date"
                                                               datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
                     <span class="post-author"><a href="#">{{ post.author }}</a></span>
-                    <span class="comments-link"><a href="{{ post.get_absolute_url }}#comment-ares">{{ post.comment_set.count }} 评论</a></span>
+                    <span class="comments-link"><a
+                            href="{{ post.get_absolute_url }}#comment-ares">{{ post.comment_set.count }} 评论</a></span>
                     <span class="views-count"><a href="{{ post.get_absolute_url }}">{{ post.reading }} 阅读</a></span>
                 </div>
             </header>
@@ -34,20 +35,47 @@
         <a href="#">下一页</a>
     </div>
     -->
-    <!--<div class="pagination">
+    <div class="pagination">
         <ul>
-            <li><a href="">1</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li class="current"><a href="">6</a></li>
-            <li><a href="">7</a></li>
-            <li><a href="">8</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">11</a></li>
+            {% if post_list.has_previous %}
+                <li>
+                    <a href="?page={{ post_list.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for pg in post_list.paginator.page_range %}
+                {% if post_list.number == pg %}
+                    <li class="current">
+                        <a href="?page={{ pg }}">{{ pg }}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="?page={{ pg }}">{{ pg }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if post_list.has_next %}
+                <li>
+                    <a href="?page={{ post_list.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+{#            <li><a href="">1</a></li>#}
+{#            <li><a href="">...</a></li>#}
+{#            <li><a href="">4</a></li>#}
+{#            <li><a href="">5</a></li>#}
+{#            <li class="current"><a href="">6</a></li>#}
+{#            <li><a href="">7</a></li>#}
+{#            <li><a href="">8</a></li>#}
+{#            <li><a href="">...</a></li>#}
+{#            <li><a href="">11</a></li>#}
         </ul>
     </div>
-    -->
+
 {% endblock main %}
 
 {% block toc %}
