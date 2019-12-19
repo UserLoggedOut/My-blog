@@ -12,4 +12,5 @@ urlpatterns = [
     path('full-width/', views.BlogView.as_view(), name='full-width'),  # 博客
     path('about/', views.AboutView.as_view(), name='about'),  # 关于
     path('contact/', views.ContactView.as_view(), name='contact'),  # 联系
+    path(r'^search/$', views.SearchView.as_view(), name='search'),  # 全文搜索
 ]

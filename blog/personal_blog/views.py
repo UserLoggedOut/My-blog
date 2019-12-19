@@ -2,6 +2,7 @@ import re
 
 import markdown
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.views import View
@@ -90,3 +91,16 @@ class AboutView(View):  # 关于
 class ContactView(View):  # 联系
     def get(self, request):
         return render(request, 'personal_blog/contact.html')
+
+
+class SearchView(View):
+    def get(self, request):
+        q = request.GET.get('q')
+        error_msg = ''
+
+        if not q:
+            error_msg = '请输入关键词'
+            return render(request, 'personal_blog/index.html', {error_msg: 'error_msg'})
+
+        post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+        return render(request, 'personal_blog/index.html', {'error_msg': error_msg, 'post_list': post_list})
