@@ -15,18 +15,19 @@ class IndexView(View):  # 显示主页
     def get(self, request):
         post_list = Post.objects.all().order_by('-created_time')
 
-        paginator = Paginator(post_list, 5)
+        # paginator = Paginator(post_list, 5)
+        # page = request.GET.get('page', 1)
+        # current_page = page
+
+        # try:
+        #     post_list = paginator.page(page)
+        # except PageNotAnInteger:
+        #     post_list = paginator.page(1)
+        # except EmptyPage:
+        #     post_list = paginator.page(paginator.num_pages)
+
+        paginator = Paginator(post_list, 3)
         page = request.GET.get('page', 1)
-        current_page = page
-        if paginator.num_pages > 11:
-            if current_page-5 < 1:
-                page_range = range(1, 11)
-            elif current_page+5 > paginator.num_pages:
-                page_range = range(current_page-5, paginator.num_pages+1)
-            else:
-                page_range = range(current_page-5, current_page+6)
-        else:
-            page_range = paginator.page_range
         try:
             post_list = paginator.page(page)
         except PageNotAnInteger:
@@ -34,7 +35,7 @@ class IndexView(View):  # 显示主页
         except EmptyPage:
             post_list = paginator.page(paginator.num_pages)
 
-        return render(request, 'personal_blog/index.html', locals())
+        return render(request, 'personal_blog/index.html', {'post_list': post_list, 'paginator': paginator})
 
 
 class DetailView(View):  # 显示详情页

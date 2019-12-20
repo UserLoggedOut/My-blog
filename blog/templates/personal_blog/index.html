@@ -33,56 +33,18 @@
         <div class="no-post">暂时还没有发布的文章！</div>
     {% endfor %}
 
-    <ul class="pagination" id="pager">
-        {% if post_list.has_previous %}
-            <li class="previous">
-                <a href="?page{{ post_list.previous_page_number }}">上一页</a>
-            </li>
-        {% else %}
-            <li class="previous disabled"><a href="#">上一页</a></li>
-        {% endif %}
-        
-        {% for num in paginator.page_range %}
-            {% if current_page %}
-                <li class="item active">
-                    <a href="?page={{ num }}">{{ num }}</a>
-                </li>
-            {% else %}
-                <li class="item">
-                    <a href="?page={{ num }}">{{ num }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        {% if post_list.has_next %}
-            <li class="next">
-                <a href="?page={{ post_list.next_page_number }}">下一页</a>
-            </li>
-        {% else %}
-            <li class="next disabled">
-                <a href="#">下一页</a>
-            </li>
-        {% endif %}
-        
-    </ul>
-    <!-- 简单分页效果
     <div class="pagination-simple">
-        <a href="#">上一页</a>
-        <span class="current">第 6 页 / 共 11 页</span>
-        <a href="#">下一页</a>
+        <!-- 如果当前页还有上一页，显示一个上一页的按钮 -->
+        {% if post_list.has_previous %}
+            <a href="?page={{ post_list.previous_page_number }}">上一页</a>
+        {% endif %}
+        <!-- 显示当前页面信息 -->
+        <span class="current">第 {{ post_list.number }} 页 / 共 {{ paginator.num_pages }} 页</span>
+        <!-- 如果当前页还有下一页，显示一个下一页的按钮 -->
+        {% if post_list.has_next %}
+            <a href="?page={{ post_list.next_page_number }}">下一页</a>
+        {% endif %}
     </div>
-    -->
-    {#        <div class="pagination-simple">#}
-    {#            <!-- 如果当前页还有上一页，显示一个上一页的按钮 -->#}
-    {#            {% if post_list.has_previous %}#}
-    {#                <a href="?page={{ post_list.previous_page_number }}">上一页</a>#}
-    {#            {% endif %}#}
-    {#            <!-- 显示当前页面信息 -->#}
-    {#            <span class="current">第 {{ post_list.number }} 页 / 共 {{ paginator.num_pages }} 页</span>#}
-    {#            <!-- 如果当前页还有下一页，显示一个下一页的按钮 -->#}
-    {#            {% if post_list.has_next %}#}
-    {#                <a href="?page={{ post_list.next_page_number }}">下一页</a>#}
-    {#            {% endif %}#}
-    {#        </div>#}
 
 {% endblock main %}
 
