@@ -45,8 +45,8 @@ class DetailView(View):  # 显示详情页
         md = markdown.Markdown(extensions=[
             'markdown.extensions.extra',
             'markdown.extensions.codehilite',
-            # 'markdown.extensions.toc'
-            TocExtension(slugify=slugify)  # MD内置方法不能出路中文，所以我们使用Django自带的
+            'markdown.extensions.toc'
+            # TocExtension(slugify=slugify)  # MD内置方法不能出路中文，所以我们使用Django自带的
         ])
         post.body = md.convert(post.body)
         m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>',
