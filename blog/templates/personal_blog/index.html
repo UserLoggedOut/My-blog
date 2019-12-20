@@ -33,18 +33,22 @@
         <div class="no-post">暂时还没有发布的文章！</div>
     {% endfor %}
 
-    <div class="pagination-simple">
-        <!-- 如果当前页还有上一页，显示一个上一页的按钮 -->
-        {% if post_list.has_previous %}
-            <a href="?page={{ post_list.previous_page_number }}">上一页</a>
-        {% endif %}
-        <!-- 显示当前页面信息 -->
-        <span class="current">第 {{ post_list.number }} 页 / 共 {{ paginator.num_pages }} 页</span>
-        <!-- 如果当前页还有下一页，显示一个下一页的按钮 -->
-        {% if post_list.has_next %}
-            <a href="?page={{ post_list.next_page_number }}">下一页</a>
-        {% endif %}
-    </div>
+    {% if post_list %}
+        <div class="pagination-simple">
+            <!-- 如果当前页还有上一页，显示一个上一页的按钮 -->
+            {% if post_list.has_previous %}
+                <a href="?page={{ post_list.previous_page_number }}">上一页</a>
+            {% endif %}
+            <!-- 显示当前页面信息 -->
+            <span class="current">第 {{ post_list.number }} 页 / 共 {{ paginator.num_pages }} 页</span>
+            <!-- 如果当前页还有下一页，显示一个下一页的按钮 -->
+            {% if post_list.has_next %}
+                <a href="?page={{ post_list.next_page_number }}">下一页</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <div></div>
+    {% endif %}
 
 {% endblock main %}
 
