@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'e4+#m$ci&=o7cjzbq-lhub#k&t!ly67-qtt2e^vg1(2top)+=z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".wuzhongyin.com"]
 
 # Application definition
 
@@ -122,6 +122,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')  # uploads必须存在，且在项目目录下
 MEDIA_URL = '/media/'  # 你上传的文件和图片会默认存在/uploads/editor下
