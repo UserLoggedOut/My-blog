@@ -62,21 +62,51 @@ class ArchiveView(View):  # 归档页面
         post_list = Post.objects.filter(created_time__year=year,  # 按照日期归档，所以根据文章发表的年和月来过滤
                                         created_time__month=month
                                         ).order_by('-created_time')
-        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+
+        paginator = Paginator(post_list, 3)
+        page = request.GET.get('page', 1)
+        try:
+            post_list = paginator.page(page)
+        except PageNotAnInteger:
+            post_list = paginator.page(1)
+        except EmptyPage:
+            post_list = paginator.page(paginator.num_pages)
+
+        return render(request, 'personal_blog/index.html', context={'post_list': post_list, 'paginator': paginator})
 
 
 class CategoryView(View):  # 分类页面
     def get(self, request, pk):
         cate = get_object_or_404(Category, pk=pk)
         post_list = Post.objects.filter(category=cate).order_by('-created_time')
-        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+
+        paginator = Paginator(post_list, 3)
+        page = request.GET.get('page', 1)
+        try:
+            post_list = paginator.page(page)
+        except PageNotAnInteger:
+            post_list = paginator.page(1)
+        except EmptyPage:
+            post_list = paginator.page(paginator.num_pages)
+
+        return render(request, 'personal_blog/index.html', context={'post_list': post_list, 'paginator': paginator})
 
 
 class TagsView(View):  # 标签页面
     def get(self, request, pk):
         t = get_object_or_404(Tag, pk=pk)
         post_list = Post.objects.filter(tags=t).order_by('-created_time')
-        return render(request, 'personal_blog/index.html', context={'post_list': post_list})
+
+        paginator = Paginator(post_list, 3)
+        page = request.GET.get('page', 1)
+        try:
+            post_list = paginator.page(page)
+        except PageNotAnInteger:
+            post_list = paginator.page(1)
+        except EmptyPage:
+            post_list = paginator.page(paginator.num_pages)
+
+        return render(request, 'personal_blog/index.html', context={'post_list': post_list, 'paginator': paginator})
 
 
 class BlogView(View):  # 博客页面
@@ -104,4 +134,15 @@ class SearchView(View):
             return render(request, 'personal_blog/index.html', {error_msg: 'error_msg'})
 
         post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
-        return render(request, 'personal_blog/index.html', {'error_msg': error_msg, 'post_list': post_list})
+
+        paginator = Paginator(post_list, 3)
+        page = request.GET.get('page', 1)
+        try:
+            post_list = paginator.page(page)
+        except PageNotAnInteger:
+            post_list = paginator.page(1)
+        except EmptyPage:
+            post_list = paginator.page(paginator.num_pages)
+
+        return render(request, 'personal_blog/index.html',
+                      {'error_msg': error_msg, 'post_list': post_list, 'paginator': paginator})
