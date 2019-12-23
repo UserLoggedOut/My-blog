@@ -125,5 +125,5 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')  # uploads必须存在，且在项目目录下
-MEDIA_URL = '/media/'  # 你上传的文件和图片会默认存在/uploads/editor下
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # media必须存在，且在项目目录下
+MEDIA_URL = '/media/'  # 你上传的文件和图片会默认存在/media/editor下
