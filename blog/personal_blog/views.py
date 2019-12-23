@@ -3,7 +3,7 @@ import re
 import markdown
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.utils.text import slugify
 from django.views import View
 from markdown.extensions.toc import TocExtension
@@ -146,3 +146,7 @@ class SearchView(View):
 
         return render(request, 'personal_blog/index.html',
                       {'error_msg': error_msg, 'post_list': post_list, 'paginator': paginator})
+
+
+def page_not_found(request):
+    return render_to_response('404.html')

@@ -1,5 +1,6 @@
 from django.urls import path
 
+import personal_blog
 from . import views
 
 app_name = 'personal_blog'
@@ -14,3 +15,5 @@ urlpatterns = [
     path('contact/', views.ContactView.as_view(), name='contact'),  # 联系
     path('search/', views.SearchView.as_view(), name='search'),  # 全文搜索
 ]
+
+handler404 = personal_blog.views.page_not_found
